@@ -6,7 +6,7 @@ def on_function_key(layer):
     print('Layer:', layer)
     app.updateImage(layer)
 
-imageFolder = '/home/maat/Pictures/'
+imageFolder = './assets/'
 
 class Resizable:
     def __init__(self, master):
@@ -46,4 +46,4 @@ try:
 
     app.master.mainloop()
 except Exception as error:
-    print("An error occurred:", type(error).__name__)
+    print("An error occurred:", type(error).__name__, error)
