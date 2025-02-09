@@ -1,0 +1,4 @@
+
+ # sudo dnf install python3-tkinter / or sudo apt-get install python3-tk
+ # sudo dnf install python3-pillow-tk / or sudo apt-get install python3-pil.imagetk
+ # sudo pip install pillow keyboard
