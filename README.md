@@ -73,7 +73,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 ### Linux
 
 __ ***** Note for Gnome users __ 
+
 If the Settings app is showing up when you press the function keys, you can disable the shortcuts by running the following command: 
+
 `gsettings set org.gnome.settings-daemon.plugins.media-keys control-center-static "['']"`
 
 #### Fedora
