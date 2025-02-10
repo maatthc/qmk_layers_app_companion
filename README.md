@@ -9,8 +9,7 @@ It requires the following changes to your miryoku_qmk firmware:
 
 File: keyboards/<your_keyboard>/keymaps/manna-harbour_miryoku/keymap.c
 
-#+NAME: layer_state_set_user
-#+BEGIN_SRC c
+```c
 // Notifies the host of the layer change
 // Layers reference: users/manna-harbour_miryoku/miryoku_babel/miryoku_layer_list.h
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -43,7 +42,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
     return state;
 }
-#+END_SRC
+```
 
 ## Requirements
 - Python 3
