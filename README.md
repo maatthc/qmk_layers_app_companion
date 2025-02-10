@@ -55,14 +55,18 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 ### Linux
 
 #### Fedora
- `sudo dnf install python3-tkinter`
- `sudo dnf install python3-pillow-tk`
- `sudo pip install pillow keyboard`
+`sudo dnf install python3-tkinter`
+
+`sudo dnf install python3-pillow-tk`
+
+`sudo pip install pillow keyboard`
 
 #### Debian
- `sudo apt-get install python3-tk`
- `sudo apt-get install python3-pil.imagetk`
- `sudo pip install pillow keyboard`
+`sudo apt-get install python3-tk`
+
+`sudo apt-get install python3-pil.imagetk`
+
+`sudo pip install pillow keyboard`
 
 ## Run the script as root
 `sudo python keyboard_layers.py`
