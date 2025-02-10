@@ -6,6 +6,20 @@ At the moment it only supports the default layouts of [Miryoku QMK](https://gith
 Demonstration video:
 [![Demonstration](https://img.youtube.com/vi/WpxBLXetmFg/0.jpg)](https://www.youtube.com/watch?v=WpxBLXetmFg)
 
+## Layouts
+
+The current layouts are:
+ - Base: QWERY
+ - Nav: Vi
+ - Mouse/ Media/ Num/ Syn/ Fun
+
+The following alternative Layouts are available:
+ - Base: Colemak-DH / Inverted Colemak-DH 
+ - Nav: Default
+
+To use any of the alternative layouts, rename the corresponding image file in the folder `assets` to the default name.
+
+## Internals
 
 It works by sending different Function keys (F13 to F19) to the host when switching between layers
 
