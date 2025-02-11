@@ -1,6 +1,7 @@
 # Keyboard Layers App companion
 
-A simple python script to display the selected layer layout on screen
+A simple python script to display the selected layer layout on screen.
+
 At the moment it only supports the default layouts of [Miryoku QMK](https://github.com/manna-harbour/miryoku_qmk)
 
 Demonstration video:
