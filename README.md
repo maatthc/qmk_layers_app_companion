@@ -12,11 +12,13 @@ Demonstration video:
 The current layouts are:
  - Base: QWERY
  - Nav: Vi
- - Mouse/ Media/ Num/ Syn/ Fun
+ - Mouse: Vi 
+ - Media/ Num/ Syn/ Fun
 
 The following alternative Layouts are available:
  - Base: Colemak-DH / Inverted Colemak-DH 
  - Nav: Default
+ - Mouse: Default
 
 To use any of the alternative layouts, rename the corresponding image file in the folder `assets` to the default name.
 
