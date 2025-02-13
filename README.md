@@ -67,8 +67,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 ## Requirements
 - Python 3
-- Tkinter
-- Pillow
+- Kivy
 - Keyboard
 
 ## Installation
@@ -81,19 +80,8 @@ If the Settings app is showing up when you press the function keys, you can disa
 
 `gsettings set org.gnome.settings-daemon.plugins.media-keys control-center-static "['']"`
 
-#### Fedora
-`sudo dnf install python3-tkinter`
+#### Install Dependencies
+`sudo pip install kivy keyboard`
 
-`sudo dnf install python3-pillow-tk`
-
-`sudo pip install pillow keyboard`
-
-#### Debian
-`sudo apt-get install python3-tk`
-
-`sudo apt-get install python3-pil.imagetk`
-
-`sudo pip install pillow keyboard`
-
-## Run the script as root
+#### Run the script as root
 `sudo python keyboard_layers.py`
