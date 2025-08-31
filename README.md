@@ -7,6 +7,8 @@ At the moment it only supports the default layouts of [Miryoku QMK](https://gith
 Demonstration video:
 [![Demonstration](https://img.youtube.com/vi/WpxBLXetmFg/0.jpg)](https://www.youtube.com/watch?v=WpxBLXetmFg)
 
+## TODO
+Use https://github.com/qmk/qmk_cli/ to get the current layer from the keyboard
 ## Layouts
 
 The current layouts are:
@@ -21,6 +23,11 @@ The following alternative Layouts are available:
  - Mouse: Default
 
 To use any of the alternative layouts, rename the corresponding image file in the folder `assets` to the default name.
+
+#### Make your own
+
+Make your changes to the related https://github.com/manna-harbour/miryoku/tree/master/data/layers/*.json, and feed it to http://www.keyboard-layout-editor.com, using the "Upload JSON" button in the "Raw data" tab. 
+Download the PNG files, copy it to the `assets` folder and rename it properly.
 
 ## Internals
 
