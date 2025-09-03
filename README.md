@@ -76,6 +76,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 - Python 3
 - Kivy
 - Keyboard
+- Tenacity
+- Argparse
 
 ## Installation
 
@@ -88,7 +90,7 @@ If the Settings app is showing up when you press the function keys, you can disa
 `gsettings set org.gnome.settings-daemon.plugins.media-keys control-center-static "['']"`
 
 #### Install Dependencies
-`sudo pip install kivy keyboard`
+`sudo pip install kivy keyboard tenacity argparse`
 
 #### Run the script as root
 `sudo python keyboard_layers.py`
