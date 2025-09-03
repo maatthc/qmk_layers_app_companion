@@ -1,3 +1,4 @@
+import keyboard
 from gui import Gui
 from sender import Sender
 from client import Client
