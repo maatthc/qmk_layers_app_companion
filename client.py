@@ -13,12 +13,13 @@ class Client:
         self.socket.bind((host, port))
         print(f'Binding to : {host}:{port}')
         self.socket.listen(NUM_CLIENTS)
-        thread = threading.Thread(target=self.serve) 
+        event=threading.Event()
+        thread = threading.Thread(target=self.serve,args=(event)) 
         thread.start()
-        # Close thread at GUI end
+        self.gui.set_thread_event(event)
 
-    def serve(self):
-        while True:
+    def serve(self, event):
+        while not event.is_set():
             conn, address = self.socket.accept()
             print("Connection from: " + str(address))
             while True:
