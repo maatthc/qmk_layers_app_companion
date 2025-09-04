@@ -6,7 +6,9 @@ class Sender:
         # If ip not provided, network discover it 
         self.client_ip = '127.0.0.1' 
         self.port = 1977 
+        self.setup()
 
+    def setup(self):
         self.retries=0
         self.connected=False
         self.socket = socket.socket()
@@ -20,8 +22,17 @@ class Sender:
 
     def notify(self, message):
         if self.connected == True: 
-            self.socket.send(message.encode())
+            try:
+                self.socket.send(message.encode())
+            except BrokenPipeError:
+                print('Broken pipe: Reconnecting..')
+                self.conn_reset()
+
+    def conn_reset(self):
+        self.socket.close()
+        self.setup()
+        self.connect()
 
     def __del__(self):
-        client_socket.close()
+        self.socket.close()
 
