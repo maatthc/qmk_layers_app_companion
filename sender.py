@@ -19,13 +19,14 @@ class Sender:
         print(f'Trying to connect to client ... #{self.retries}')
         self.socket.connect((self.client_ip, self.port)) 
         self.connected=True
+        print('Connected.')
 
     def notify(self, message):
         if self.connected == True: 
             try:
                 self.socket.send(message.encode())
-            except BrokenPipeError:
-                print('Broken pipe: Reconnecting..')
+            except :
+                print('Broken connection: Reconnecting..')
                 self.conn_reset()
 
     def conn_reset(self):
