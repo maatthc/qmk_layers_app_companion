@@ -4,9 +4,8 @@ import threading
 NUM_CLIENTS=1
 
 class Client:
-    def __init__(self,gui):
+    def __init__(self,gui,port):
         host = '127.0.0.1'
-        port = 1977
         self.gui=gui
 
         self.socket = socket.socket()

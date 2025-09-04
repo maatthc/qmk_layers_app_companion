@@ -20,14 +20,14 @@ def main():
 
     if args.client:
         gui = Gui()
-        Client(gui)
+        Client(gui,args.client_port)
         gui.run()
         return
 
     key_listener(send_keystroke)
 
     if args.remote:
-        sender = Sender()
+        sender = Sender(args)
         sender.connect()
         keyboard.wait()
     else:
