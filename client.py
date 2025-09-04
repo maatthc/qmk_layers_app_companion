@@ -1,20 +1,21 @@
 import socket
 import threading
 
-NUM_CLIENTS=1
+NUM_CLIENTS = 1
+
 
 class Client:
-    def __init__(self,gui,port):
-        host = '127.0.0.1'
-        self.gui=gui
+    def __init__(self, gui, port):
+        host = "127.0.0.1"
+        self.gui = gui
 
         self.socket = socket.socket()
         self.socket.bind((host, port))
-        print(f'Binding to : {host}:{port}')
+        print(f"Binding to : {host}:{port}")
         self.socket.listen(NUM_CLIENTS)
         self.socket.settimeout(1)
-        event=threading.Event()
-        thread = threading.Thread(target=self.serve,args=(event,)) 
+        event = threading.Event()
+        thread = threading.Thread(target=self.serve, args=(event,))
         thread.deamon = True
         thread.start()
         self.gui.set_thread_event(event)
@@ -31,7 +32,7 @@ class Client:
                         if not data:
                             break
                         print("Data received: " + str(data))
-                        self.gui.on_function_key(data) 
+                        self.gui.on_function_key(data)
                     except:
                         continue
                 conn.close()

@@ -1,32 +1,33 @@
 import socket
 from tenacity import retry, wait_exponential
 
+
 class Sender:
     def __init__(self, args):
-        # If ip not provided, network discover it 
-        self.client_ip = '127.0.0.1' 
+        # If ip not provided, network discover it
+        self.client_ip = "127.0.0.1"
         self.client_port = args.client_port
         self.setup()
 
     def setup(self):
-        self.retries=0
-        self.connected=False
+        self.retries = 0
+        self.connected = False
         self.socket = socket.socket()
-    
+
     @retry(wait=wait_exponential(multiplier=1, min=1, max=10))
     def connect(self):
-        self.retries+=1
-        print(f'Trying to connect to client ... #{self.retries}')
-        self.socket.connect((self.client_ip, self.client_port)) 
-        self.connected=True
-        print('Connected.')
+        self.retries += 1
+        print(f"Trying to connect to client ... #{self.retries}")
+        self.socket.connect((self.client_ip, self.client_port))
+        self.connected = True
+        print("Connected.")
 
     def notify(self, message):
-        if self.connected == True: 
+        if self.connected == True:
             try:
                 self.socket.send(message.encode())
-            except :
-                print('Broken connection: Reconnecting..')
+            except:
+                print("Broken connection: Reconnecting..")
                 self.conn_reset()
 
     def conn_reset(self):
@@ -36,4 +37,3 @@ class Sender:
 
     def __del__(self):
         self.socket.close()
-

@@ -8,19 +8,21 @@ from hotkeys import key_listener
 gui = None
 sender = None
 
+
 def send_keystroke(key):
     if sender is not None:
         sender.notify(key)
     else:
         gui.on_function_key(key)
 
+
 def main():
-    global gui,sender
+    global gui, sender
     args = parser()
 
     if args.client:
         gui = Gui()
-        Client(gui,args.client_port)
+        Client(gui, args.client_port)
         gui.run()
         return
 
@@ -34,5 +36,6 @@ def main():
         gui = Gui()
         gui.run()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
