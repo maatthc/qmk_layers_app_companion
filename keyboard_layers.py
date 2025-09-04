@@ -8,20 +8,22 @@ from hotkeys import key_listener
 gui = None
 sender = None
 
-args = parser()
-
 def send_keystroke(key):
     if sender is not None:
         sender.notify(key)
     else:
         gui.on_function_key(key)
 
-if args.client:
-    gui = Gui()
-    Client(gui)
-    gui.run()
+def main():
+    global gui,sender
+    args = parser()
 
-else:
+    if args.client:
+        gui = Gui()
+        Client(gui)
+        gui.run()
+        return
+
     key_listener(send_keystroke)
 
     if args.remote:
@@ -31,3 +33,6 @@ else:
     else:
         gui = Gui()
         gui.run()
+
+if __name__ == '__main__':
+    main()
