@@ -25,8 +25,10 @@ class Gui(App):
   def on_function_key(self, layer):
       self.img.source = imageFolder + 'miryoku-kle-' + layer + '.png'
 
-  def on_stop(self):
+  def on_stop(self,**kwargs):
         print('App closing..')
         if self.thread_event is not None:
             self.thread_event.set()
+            print('killing..')
             sys.exit()
+        super().on_stop(**kwargs)
