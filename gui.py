@@ -1,4 +1,3 @@
-import sys
 import os
 os.environ["KIVY_NO_ARGS"] = "1"
 
@@ -8,6 +7,7 @@ from kivy.uix.button import Button
 from kivy.uix.image import AsyncImage
 
 imageFolder = './assets/'
+imagePrefix = 'miryoku-kle-'
 
 class Gui(App):
   def __init__(self,**kwargs):
@@ -19,16 +19,14 @@ class Gui(App):
 
   def build(self):
     self.title = 'Keyboard : Miryoku Layouts'
-    self.img = AsyncImage(source= imageFolder + 'miryoku-kle-base.png',  allow_stretch=True)
+    self.img = AsyncImage(source= imageFolder + imagePrefix + 'base.png',  allow_stretch=True)
     return self.img
 
   def on_function_key(self, layer):
-      self.img.source = imageFolder + 'miryoku-kle-' + layer + '.png'
+      self.img.source = imageFolder + imagePrefix + layer + '.png'
 
   def on_stop(self,**kwargs):
         print('App closing..')
         if self.thread_event is not None:
             self.thread_event.set()
-            print('killing..')
-            sys.exit()
         super().on_stop(**kwargs)
