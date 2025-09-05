@@ -1,14 +1,15 @@
 import socket
 import threading
+from zeroconfig import Advertiser
 
 NUM_CLIENTS = 1
 
 
 class Client:
     def __init__(self, gui, port):
-        host = "127.0.0.1"
-        self.gui = gui
+        host = "0.0.0.0"
 
+        self.gui = gui
         self.socket = socket.socket()
         self.socket.bind((host, port))
         print(f"Binding to : {host}:{port}")
@@ -19,6 +20,9 @@ class Client:
         thread.deamon = True
         thread.start()
         self.gui.set_thread_event(event)
+
+        adv = Advertiser(port)
+        adv.register()
 
     def serve(self, event):
         while not event.is_set():
