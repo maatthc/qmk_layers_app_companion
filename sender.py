@@ -1,13 +1,17 @@
 import socket
 from tenacity import retry, wait_exponential
+from zeroconfig import ServiceDiscover
 
 
 class Sender:
     def __init__(self, args):
-        # If ip not provided, network discover it
-        self.client_ip = "127.0.0.1"
-        self.client_port = args.client_port
         self.setup()
+        if args.client_ip is not None:
+            self.client_ip = args.client_ip
+            self.client_port = args.client_port
+            return
+        zero = ServiceDiscover()
+        self.client_ip, self.client_port = zero.find()
 
     def setup(self):
         self.retries = 0
