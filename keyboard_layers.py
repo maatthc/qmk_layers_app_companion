@@ -12,7 +12,7 @@ sender = None
 def send_keystroke(key):
     if sender is not None:
         sender.notify(key)
-    else:
+    if gui is not None:
         gui.on_function_key(key)
 
 
