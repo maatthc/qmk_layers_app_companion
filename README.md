@@ -1,6 +1,6 @@
 # Keyboard Layers App companion
 
-Display the selected keyboard layer layout on screen to assist your to memorize the key locatios.
+Display the selected keyboard layer layout on screen to assist your to memorize the key's locations.
 
 It allows you to display the layout in a remote screen, so you can use a tablet or similar to save space on your main screen.
 
