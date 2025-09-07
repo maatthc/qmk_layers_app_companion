@@ -108,3 +108,13 @@ If the Settings app is showing up when you press the function keys, you can disa
 
 #### Run the script as root
 `sudo python keyboard_layers.py`
+
+##### Remote Display
+
+Host (as root):
+
+`sudo python keyboard_layers.py --remote`
+
+Client (as normal user):
+
+`python keyboard_layers.py --client`
