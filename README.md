@@ -35,7 +35,7 @@ To use any of the alternative layouts, rename the corresponding image file in th
 
 #### Define your own layouts
 
-Build your own layouts using [KLE](http://www.keyboard-layout-editor) - you can find examples on the [Miryoku QMK repo](https://github.com/manna-harbour/miryoku/tree/master/data/layers/) or use [mine](https://github.com/maatthc/miryoku_qmk/tree/miryoku/data/layers).
+Build your own layouts using [KLE](http://www.keyboard-layout-editor.com) - you can find examples on the [Miryoku QMK repo](https://github.com/manna-harbour/miryoku/tree/master/data/layers/) or use [mine](https://github.com/maatthc/miryoku_qmk/tree/miryoku/data/layers).
 
 Use the "Upload JSON" button in the "Raw data" tab. 
 
