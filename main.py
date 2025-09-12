@@ -1,9 +1,8 @@
-import keyboard
 from gui import Gui
 from sender import Sender
 from client import Client
 from args import parser
-from hotkeys import key_listener
+from keyboard_hid import Keyboard
 
 gui = None
 sender = None
@@ -26,14 +25,14 @@ def main():
         gui.run()
         return
 
-    key_listener(send_keystroke)
+    keyboard = Keyboard(send_keystroke)
 
     if args.remote:
         sender = Sender(args)
         sender.connect()
-        keyboard.wait()
     else:
         gui = Gui()
+        keyboard.set_gui(gui)
         gui.run()
 
 
