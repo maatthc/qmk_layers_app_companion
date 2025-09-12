@@ -129,4 +129,4 @@ Host:
 
 Client:
 
-``` python keyboard_layers.py --client``< --client-ip > ```
+``` python keyboard_layers.py --client < --client-ip > ```
