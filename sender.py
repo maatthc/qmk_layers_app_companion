@@ -27,11 +27,11 @@ class Sender:
         print("Connected.")
 
     def notify(self, message):
-        if self.connected == True:
+        if self.connected is True:
             try:
-                self.socket.send(message.encode())
-            except:
-                print("Broken connection: Reconnecting..")
+                self.socket.send(str(message).encode())
+            except Exception as e:
+                print(f"{e} - Broken connection: Reconnecting..")
                 self.conn_reset()
 
     def conn_reset(self):
