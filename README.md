@@ -2,9 +2,11 @@
 
 Display the selected keyboard layer layout on screen to assist your to memorize the key's locations.
 
-It allows you to display the layout in a remote screen, so you can use a tablet or similar to save space on your main screen.
+It supports displaying the layout in a remote screen, so you can use a tablet or similar to save space on your main screen.
 
-Supports the default layouts of [Miryoku QMK](https://github.com/manna-harbour/miryoku_qmk) and you can define your own.
+It requires some changes to your keyboard firmware to notify the host of the layer changes (see below).
+
+The example layouts are based on [Miryoku QMK](https://github.com/manna-harbour/miryoku_qmk) and you can easily define your own.
 
 Demonstration video:
 
@@ -18,103 +20,113 @@ Optionally, the client IP can be specified.
 
 ![Remote](./assets/remote-client.png)
 
-## Layouts
 
-The current layouts are:
- - Base: QWERY
- - Nav: Vi
- - Mouse: Vi 
- - Media/ Num/ Syn/ Fun
+## QMK Firmware changes
 
-The following alternative Layouts are available:
- - Base: Colemak-DH / Inverted Colemak-DH 
- - Nav: Default
- - Mouse: Default
+The application works by receiving data sent to the computer by the keyboard when it switchs between layers, using raw HID.
 
-To use any of the alternative layouts, rename the corresponding image file in the folder `assets` to the default name.
+It requires the following to be added to your QMK firmware [(reference)](https://github.com/maatthc/qmk_userspace/tree/main/keyboards/beekeeb/piantor/keymaps/manna_harbour_miryoku):
 
-#### Define your own layouts
+**File**: keyboards/<your_keyboard>/keymaps/<default|yours>/keymap.c
 
-Build your own layouts using [KLE](http://www.keyboard-layout-editor.com) - you can find examples on the [Miryoku QMK repo](https://github.com/manna-harbour/miryoku/tree/master/data/layers/) or use [mine](https://github.com/maatthc/miryoku_qmk/tree/miryoku/data/layers).
+``` c
+#include QMK_KEYBOARD_H
+#include "print.h"
+#include "raw_hid.h"
 
-Use the "Upload JSON" button in the "Raw data" tab. 
+...
 
-Download the PNG files, copy it to the `assets` folder and rename it properly.
-
-## Internals
-
-It works by sending different Function keys (F13 to F19) to the host when switching between layers.
-
-It requires the following changes to your miryoku_qmk firmware:
-
-File: keyboards/<your_keyboard>/keymaps/manna-harbour_miryoku/keymap.c
-
-```c
 // Notifies the host of the layer change
-// Layers reference: users/manna-harbour_miryoku/miryoku_babel/miryoku_layer_list.h
 layer_state_t layer_state_set_user(layer_state_t state) {
-    switch (get_highest_layer(state)) {
-        case 0:
-            // send f13
-            SEND_STRING(SS_TAP(X_F13));
-            break;
-        case 4:
-            SEND_STRING(SS_TAP(X_F14));
-            break;
-        case 5:
-            SEND_STRING(SS_TAP(X_F15));
-            break;
-        case 6:
-            SEND_STRING(SS_TAP(X_F16));
-            break;
-        case 7:
-            SEND_STRING(SS_TAP(X_F17));
-            break;
-        case 8:
-            SEND_STRING(SS_TAP(X_F18));
-            break;
-        case 9:
-            SEND_STRING(SS_TAP(X_F19));
-            break;
-        default:
-            uprintf("Layer not mapped: %d\n", get_highest_layer(state));
-            break;
-    }
+    uint8_t hi_layer = get_highest_layer(state);
+#ifdef CONSOLE_ENABLE
+    uprintf("LAYER: Selected Layer: %d\n", hi_layer);
+#endif
+    raw_hid_send(&hi_layer,32);
     return state;
 }
 ```
 
-## Requirements
+Layers reference for Miryoku: [miryoku_layer_list.h](https://github.com/manna-harbour/miryoku_qmk/blob/miryoku/users/manna-harbour_miryoku/miryoku_babel/miryoku_layer_list.h)
 
-- Firmware changes described in [Internals](#Internals)
-- Python 3
-- Kivy
-- Keyboard
-- Tenacity
-- Argparse
+**File**: keyboards/<your_keyboard>/keymaps/<default|yours>/config.h
 
-## Installation
+``` c
+#define RAW_USAGE_PAGE 0xFF60
+#define RAW_USAGE 0x61
+```
+
+## Configuration
+
+The Configuration is done via the `config.ini` file.
+
+-   Keyboard's USB details: refer to the [QMK HDI documentation](https://docs.qmk.fm/features/rawhid) for details on how to find the correct values for your keyboard. 
+
+>> "you will need to know the USB Vendor and Product IDs of the device. These can easily be found by looking at your keyboard's info.json, under the usb object (alternatively, you can also use Device Manager on Windows, System Information on macOS, or lsusb on Linux)."
+
+-   Layer image files: the example files are for Miryoku QMK, but you can define your own (see below). Layers that are not used can be left empty.
+
+Example `config.ini`:
+
+``` ini
+
+[KEYBOARD_USB_HID]
+vendor_id = 0xBEEB
+product_id = 0x0001
+usage_page = 0xFF60
+usage = 0x61
+
+[LAYER_IMAGES]
+layer_0 = miryoku-kle-base.png 
+layer_1 = 
+layer_2 =
+layer_3 =
+layer_4 = miryoku-kle-nav.png 
+layer_5 = miryoku-kle-mouse.png 
+layer_6 = miryoku-kle-media.png 
+layer_7 = miryoku-kle-num.png 
+layer_8 = miryoku-kle-sym.png 
+layer_9 = miryoku-kle-fun.png 
+```
+
+## Define your own layouts
+
+Build your own layouts using [KLE](http://www.keyboard-layout-editor.com) - you can find json examples on the [Miryoku QMK repo](https://github.com/manna-harbour/miryoku/tree/master/data/layers/) or use [mine](https://github.com/maatthc/miryoku_qmk/tree/miryoku/data/layers).
+
+At KLE, use the "Upload JSON" button in the "Raw data" tab to upload the examples.
+
+Once you are done editing, download the PNG files, copy it to the `assets` folder, rename it properly and update the config file.
+
+
+## How to run
+
+This application should work on all OSs compatible with HIDAPI.\
+At the moment, only instructions for Fedora Linux are available.
 
 ### Linux
 
-__***** Note for Gnome users__ 
-
-If the Settings app is showing up when you press the function keys, you can disable the shortcuts by running the following command: 
-
-`gsettings set org.gnome.settings-daemon.plugins.media-keys control-center-static "['']"`
-
 #### Install Dependencies
-`sudo pip install kivy keyboard tenacity argparse`
 
-#### Run the script as root
-`sudo python keyboard_layers.py`
+Fist install [HIDAPI](https://pypi.org/project/hid/) on your system. E.g. on Fedora:
+
+`dnf install hidapi`
+
+Then install the required Python packages:
+
+`pip install kivy tenacity argparse hid zeroconf`
+
+#### Run the main script
+
+`python main.py`
 
 ##### Remote Display
 
-Host (as root):
+The **--client-ip** is optional.
 
-`sudo python keyboard_layers.py --remote`
+Host:
 
-Client (as normal user):
+`python keyboard_layers.py --remote < --client-ip >`
 
-`python keyboard_layers.py --client`
+Client:
+
+``` python keyboard_layers.py --client``< --client-ip > ```
