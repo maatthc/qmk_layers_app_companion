@@ -113,20 +113,23 @@ Fist install [HIDAPI](https://pypi.org/project/hid/) on your system. E.g. on Fed
 
 Then install the required Python packages:
 
-`pip install kivy tenacity argparse hid zeroconf`
+`pip install pipenv`
+
+`pipenv install`
 
 #### Run the main script
 
-`python main.py`
+`pipenv run python main.py`
 
 ##### Remote Display
 
-The **--client-ip** is optional.
+The `--client-ip` is optional.
 
 Host:
 
-`python keyboard_layers.py --remote < --client-ip >`
+`pipenv run python main.py --remote <--client-ip>`
 
 Client:
 
-``` python keyboard_layers.py --client < --client-ip > ```
+`pipenv run python main.py --client <--client-ip> `
+
