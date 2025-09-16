@@ -1,39 +1,27 @@
 from gui import Gui
-from sender import Sender
+from server import Server
 from client import Client
 from args import parser
 from keyboard_hid import Keyboard
 
-gui = None
-sender = None
-
-
-def send_keystroke(key):
-    if sender is not None:
-        sender.notify(key)
-    if gui is not None:
-        gui.on_function_key(key)
-
 
 def main():
-    global gui, sender
     args = parser()
 
     if args.client:
         gui = Gui()
-        Client(gui, args.client_port)
+        Client(gui, args)
         gui.run()
         return
 
-    keyboard = Keyboard(send_keystroke)
+    listener = None
 
     if args.remote:
-        sender = Sender(args)
-        sender.connect()
+        listener = Server()
     else:
-        gui = Gui()
-        keyboard.set_gui(gui)
-        gui.run()
+        listener = Gui()
+
+    Keyboard(listener)
 
 
 if __name__ == "__main__":
