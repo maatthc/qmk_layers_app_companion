@@ -1,6 +1,6 @@
 import hid
 import threading
-from config import Config
+from libs.config import Config
 
 BYTES_TO_READ = 1
 

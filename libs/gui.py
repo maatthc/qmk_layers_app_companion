@@ -1,5 +1,5 @@
 import os
-from config import Config
+from libs.config import Config
 
 os.environ["KIVY_NO_ARGS"] = "1"
 

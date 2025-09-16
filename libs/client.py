@@ -1,6 +1,6 @@
 import socket
 import threading
-from zeroconfig import Advertiser
+from libs.zeroconfig import Advertiser
 
 NUM_CLIENTS = 1
 

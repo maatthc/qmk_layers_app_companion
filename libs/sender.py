@@ -1,6 +1,6 @@
 import socket
 from tenacity import retry, wait_exponential
-from zeroconfig import ServiceDiscover
+from libs.zeroconfig import ServiceDiscover
 
 
 class Sender:
