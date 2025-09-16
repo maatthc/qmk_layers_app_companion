@@ -2,30 +2,38 @@ import configparser
 
 
 class Config:
-    def __init__(self):
-        self.config_file = "config.ini"
-        config = configparser.ConfigParser()
+    _config_file = "config.ini"
+    _config = None
+
+    @staticmethod
+    def __init__():
+        if Config._config is not None:
+            return
+        print("Loading configuration...")
+        Config._config = configparser.ConfigParser()
         try:
-            config.read(self.config_file)
+            Config._config.read(Config._config_file)
         except configparser.Error as e:
             print(f"Error reading configuration file: {e}")
             exit(2)
 
-        if "KEYBOARD_USB_HID" in config:
-            keyboard = config["KEYBOARD_USB_HID"]
-            self.vendor_id = int(keyboard["vendor_id"], 16)
-            self.product_id = int(keyboard["product_id"], 16)
-            self.usage_page = int(keyboard["usage_page"], 16)
-            self.usage = int(keyboard["usage"], 16)
+        if "KEYBOARD_USB_HID" in Config._config:
+            keyboard = Config._config["KEYBOARD_USB_HID"]
+            Config.vendor_id = int(keyboard["vendor_id"], 16)
+            Config.product_id = int(keyboard["product_id"], 16)
+            Config.usage_page = int(keyboard["usage_page"], 16)
+            Config.usage = int(keyboard["usage"], 16)
         else:
             print(
-                f"KEYBOARD_USB_HID section not found in config file: {self.config_file}"
+                f"KEYBOARD_USB_HID section not found in config file: {Config._config_file}"
             )
             exit(2)
 
-        if "LAYER_IMAGES" in config:
-            values = config["LAYER_IMAGES"].values()
-            self.layers = [v for v in values]
+        if "LAYER_IMAGES" in Config._config:
+            values = Config._config["LAYER_IMAGES"].values()
+            Config.layers = [v for v in values]
         else:
-            print(f"LAYER_IMAGES section not found in config file: {self.config_file}")
+            print(
+                f"LAYER_IMAGES section not found in config file: {Config._config_file}"
+            )
             exit(2)
