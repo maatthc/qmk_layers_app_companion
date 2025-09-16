@@ -1,32 +1,23 @@
 import hid
-import threading
 from config import Config
 
 BYTES_TO_READ = 1
 
 
 class Keyboard:
-    def __init__(self, send_keystroke):
+    def __init__(self, listener):
         self.gui = None
-        self.interface = None
+        self.hid = None
 
-        self.send_keystroke = send_keystroke
+        self.updateLayer = listener.updateLayer
         self.config = Config()
-        self.interface = self.get_raw_hid_interface()
-        if self.interface is None:
+
+        self.hid = self.get_raw_hid_interface()
+        if self.hid is None:
             self.print_instructions()
             exit(1)
 
-        self.event = threading.Event()
-        self.thread = threading.Thread(
-            target=self.listen_to_layer_changes,
-        )
-        self.thread.deamon = True
-        self.thread.start()
-
-    def set_gui(self, gui):
-        self.gui = gui
-        self.gui.set_thread_event(self.event)
+        self.listen_to_layer_changes()
 
     def get_raw_hid_interface(self):
         device_interfaces = hid.enumerate(self.config.vendor_id, self.config.product_id)
@@ -47,12 +38,12 @@ class Keyboard:
         return interface
 
     def listen_to_layer_changes(self):
-        while not self.event.is_set():
-            data = self.interface.read(BYTES_TO_READ)
+        while True:
+            data = self.hid.read(BYTES_TO_READ)
             if len(data) == 0:
                 continue
             response = int.from_bytes(data)
-            self.send_keystroke(response)
+            self.updateLayer(response)
 
     def print_instructions(self):
         print("No keyboard found.")
@@ -61,5 +52,5 @@ class Keyboard:
         )
 
     def __del__(self):
-        if self.interface is not None:
-            self.interface.close()
+        if self.hid is not None:
+            self.hid.close()
