@@ -43,12 +43,12 @@ class Advertiser:
 class ServiceDiscover:
     def __init__(self):
         self.service_info = None
-        print("Searching for Companion App client..")
+        print("Searching for Companion App server..")
         self.zc = Zeroconf()
-        browser = ServiceBrowser(self.zc, service_type, handlers=[self.add_service])
+        ServiceBrowser(self.zc, service_type, handlers=[self.add_service])
 
     def find(self):
-        while self.service_info == None:
+        while self.service_info is not None:
             time.sleep(1)
             print(".", end="", flush=True)
         return socket.inet_ntoa(self.service_info.addresses[0]), self.service_info.port
