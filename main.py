@@ -1,8 +1,8 @@
-from gui import Gui
-from server import Server
-from client import Client
-from args import parser
-from keyboard_hid import Keyboard
+from libs.gui import Gui
+from libs.sender import Sender
+from libs.client import Client
+from libs.args import parser
+from libs.keyboard_hid import Keyboard
 
 
 def main():
