@@ -4,7 +4,6 @@ from zeroconf import (
     ServiceStateChange,
     ServiceInfo,
     ServiceBrowser,
-    ServiceListener,
     Zeroconf,
 )
 
@@ -30,9 +29,9 @@ class Advertiser:
             server=host_name,
         )
 
-    def register(self):
+    async def register(self):
         print(f"Registering service: {self.info.name}")
-        self.zeroconf.register_service(self.info)
+        await self.zeroconf.async_register_service(self.info)
 
     def __end__(self):
         print("Unregistering service...")
