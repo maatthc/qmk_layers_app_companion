@@ -9,28 +9,26 @@ class Server(ConsumerInterface):
         self.port = args.server_port
         self.keyboard = keyboard
         self.clients: set[asyncio.StreamWriter] = set()
+        self.adv = Advertiser(self.port)
 
     async def start(self):
-        adv = Advertiser(self.port)
-        await adv.register()
+        await self.adv.register()
 
-        try:
-            server = await asyncio.start_server(
-                self.handle_client, self.host, self.port
-            )
-            addr = server.sockets[0].getsockname()
-            print(f"Server started on {addr[0]}:{addr[1]}")
-        except Exception as e:
-            print(f"Failed to start server: {e}")
-            return
+        server = await asyncio.start_server(self.handle_client, self.host, self.port)
+        addr = server.sockets[0].getsockname()
+        print(f"Server started on {addr[0]}:{addr[1]}")
 
-        periodic_task = asyncio.create_task(self.periodic_update())
+        periodic_task = asyncio.create_task(
+            self.periodic_update(), name="periodic_update"
+        )
 
         try:
             async with server:
                 await server.serve_forever()
         except asyncio.CancelledError:
             pass
+        except KeyboardInterrupt:
+            print("Server shutting down...")
         except Exception as e:
             print(f"Server error: {e}")
         finally:
@@ -48,11 +46,17 @@ class Server(ConsumerInterface):
 
     async def periodic_update(self):
         while True:
-            await asyncio.sleep(0.1)
+            try:
+                await asyncio.sleep(0.1)
 
-            message = self.keyboard.notify_changes()
-            if message is not None:
-                await self.broadcast_update(str(message))
+                message = self.keyboard.notify_changes()
+                if message is not None:
+                    await self.broadcast_update(str(message))
+
+            except KeyboardInterrupt:
+                print("Periodic update task cancelled")
+            except Exception as e:
+                print(f"Error in periodic update: {e}")
 
     async def broadcast_update(self, message: str):
         if not self.clients:
