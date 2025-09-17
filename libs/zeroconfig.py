@@ -45,9 +45,10 @@ class ServiceDiscover:
         print("Searching for Companion App server..")
         self.zc = Zeroconf()
         ServiceBrowser(self.zc, service_type, handlers=[self.add_service])
+        print(f"Browsing for service type: {service_type}")
 
     def find(self):
-        while self.service_info is not None:
+        while self.service_info is None:
             time.sleep(1)
             print(".", end="", flush=True)
         return socket.inet_ntoa(self.service_info.addresses[0]), self.service_info.port
