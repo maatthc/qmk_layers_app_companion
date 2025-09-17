@@ -12,7 +12,9 @@ async def main():
     args = parser()
 
     if args.client:
-        consumer = Gui(Client(args))
+        cli = Client(args)
+        await cli.start()
+        consumer = Gui(cli)
     elif args.server:
         consumer = Server(Keyboard(), args)
     else:
@@ -25,4 +27,7 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Server stopped by KeyboardInterrupt.")

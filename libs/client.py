@@ -6,14 +6,16 @@ from libs.zeroconfig import ServiceDiscover
 class Client:
     def __init__(self, args):
         self.setup()
+        self.args = args
 
+    async def start(self):
+        args = self.args
         if args.server_ip is not None:
             self.server_ip = args.server_ip
             self.server_port = args.server_port
         else:
             zero = ServiceDiscover()
-            self.server_ip, self.server_port = zero.find()
-        self.setup()
+            self.server_ip, self.server_port = await zero.find()
         self.connect()
 
     def setup(self):
