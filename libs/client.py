@@ -1,20 +1,20 @@
 import socket
 from tenacity import retry, wait_exponential
-from zeroconfig import ServiceDiscover
+from libs.zeroconfig import ServiceDiscover
 
 
 class Client:
-    def __init__(self, gui, args):
-        self.gui = gui
+    def __init__(self, args):
         self.setup()
 
         if args.server_ip is not None:
             self.server_ip = args.server_ip
             self.server_port = args.server_port
-            return
-
-        zero = ServiceDiscover()
-        self.server_ip, self.server_port = zero.find()
+        else:
+            zero = ServiceDiscover()
+            self.server_ip, self.server_port = zero.find()
+        self.setup()
+        self.connect()
 
     def setup(self):
         self.retries = 0
@@ -28,19 +28,17 @@ class Client:
         self.socket.connect((self.server_ip, self.server_port))
         self.connected = True
         print("Connected.")
-        self.receive_changes()
 
-    def receive_changes(self):
+    def notify_changes(self):
         if self.connected is True:
-            while True:
-                try:
-                    data = str(self.socket.recv(1024).decode())
-                    if not data:
-                        break
-                    self.gui.updateLayer(int(data))
-                except Exception as e:
-                    print(f"{e} - Error with connection: Reconnecting..")
-                    self.conn_reset()
+            try:
+                data = self.socket.recv(1).decode()
+                if not data:
+                    return
+                return int(data)
+            except Exception as e:
+                print(f"{e} - Error with connection: Reconnecting..")
+                self.conn_reset()
 
     def conn_reset(self):
         self.socket.close()
