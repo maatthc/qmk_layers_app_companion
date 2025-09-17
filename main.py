@@ -1,8 +1,9 @@
 from libs.gui import Gui
-from libs.sender import Sender
+from libs.server import Server
 from libs.client import Client
 from libs.args import parser
 from libs.keyboard_hid import Keyboard
+from libs.consumer import ConsumerInterface
 
 
 def main():
@@ -14,14 +15,16 @@ def main():
         gui.run()
         return
 
-    listener = None
-
-    if args.remote:
-        listener = Server()
+    consumer: ConsumerInterface = None
+    if args.server:
+        consumer = Server(Keyboard(), args)
     else:
-        listener = Gui()
+        consumer = Gui(Keyboard())
 
-    Keyboard(listener)
+    try:
+        consumer.run()
+    except KeyboardInterrupt:
+        consumer.stop()
 
 
 if __name__ == "__main__":
