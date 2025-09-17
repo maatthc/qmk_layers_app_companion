@@ -1,3 +1,4 @@
+import asyncio
 from libs.gui import Gui
 from libs.server import Server
 from libs.client import Client
@@ -6,7 +7,7 @@ from libs.keyboard_hid import Keyboard
 from libs.consumer import ConsumerInterface
 
 
-def main():
+async def main():
     args = parser()
 
     if args.client:
@@ -22,10 +23,10 @@ def main():
         consumer = Gui(Keyboard())
 
     try:
-        consumer.run()
+        await consumer.start()
     except KeyboardInterrupt:
         consumer.stop()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
