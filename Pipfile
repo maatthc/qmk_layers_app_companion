@@ -9,6 +9,7 @@ tenacity = "*"
 argparse = "*"
 hid = "*"
 zeroconf = "*"
+asyncio = "*"
 
 [dev-packages]
 
