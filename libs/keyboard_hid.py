@@ -1,23 +1,20 @@
 import hid
-from config import Config
+
+from libs.config import Config
 
 BYTES_TO_READ = 1
 
 
 class Keyboard:
-    def __init__(self, listener):
-        self.gui = None
+    def __init__(self):
         self.hid = None
 
-        self.updateLayer = listener.updateLayer
         self.config = Config()
 
         self.hid = self.get_raw_hid_interface()
         if self.hid is None:
             self.print_instructions()
             exit(1)
-
-        self.listen_to_layer_changes()
 
     def get_raw_hid_interface(self):
         device_interfaces = hid.enumerate(self.config.vendor_id, self.config.product_id)
@@ -37,13 +34,35 @@ class Keyboard:
         print(f"Keyboard Product: {interface.product}")
         return interface
 
-    def listen_to_layer_changes(self):
-        while True:
+    def notify_changes(self):
+        try:
             data = self.hid.read(BYTES_TO_READ)
             if len(data) == 0:
-                continue
+                return
             response = int.from_bytes(data)
-            self.updateLayer(response)
+            print(f"Layer change detected: {response}")
+            return response
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt received. Exiting...")
+        except Exception as e:
+            print(f"An error occurred while reading from HID: {e}")
+
+    async def notify_changes_async(self, callback):
+        print("Listening for layer changes...")
+        while True:
+            try:
+                data = self.hid.read(BYTES_TO_READ)
+                if len(data) == 0:
+                    continue
+                response = int.from_bytes(data)
+                print(f"Layer change detected: {response}")
+                callback(response)
+            except KeyboardInterrupt:
+                print("KeyboardInterrupt received. Exiting...")
+                break
+            except Exception as e:
+                print(f"An error occurred while reading from HID: {e}")
+                break
 
     def print_instructions(self):
         print("No keyboard found.")
@@ -52,5 +71,6 @@ class Keyboard:
         )
 
     def __del__(self):
+        print("Cleaning up Keyboard resources...")
         if self.hid is not None:
             self.hid.close()
