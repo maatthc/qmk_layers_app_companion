@@ -67,7 +67,7 @@ class Keyboard:
     def print_instructions(self):
         print("No keyboard found.")
         print(
-            f"Please ensure your keyboard is connected and configured correctly on the file {self.config.config_file}"
+            f"Please ensure your keyboard is connected and configured correctly on the file {self.config._config_file}"
         )
 
     def __del__(self):
