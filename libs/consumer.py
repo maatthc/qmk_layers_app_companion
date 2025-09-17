@@ -2,5 +2,5 @@ class ConsumerInterface:
     def stop(self):
         raise NotImplementedError("SubClass must implement method.")
 
-    def run(self):
+    async def start(self):
         raise NotImplementedError("SubClass must implement method.")
