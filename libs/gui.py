@@ -5,32 +5,34 @@ os.environ["KIVY_NO_ARGS"] = "1"
 
 from kivy.app import App  # noqa: F401
 from kivy.uix.image import AsyncImage  # noqa: F401
+from kivy.clock import Clock  # noqa: F401
 
 imageFolder = "./assets/"
 
 
 class Gui(App):
-    def __init__(self, **kwargs):
+    def __init__(self, keyboard, **kwargs):
         super().__init__(**kwargs)
-        self.thread_event = None
         self.conf = Config()
+        self.keyboard = keyboard
 
-    def set_thread_event(self, thr):
-        self.thread_event = thr
+    def on_start(self):
+        Clock.schedule_interval(self.updateLayer, 0.016)  # ~60 FPS
 
     def build(self):
-        self.title = "Keyboard : Miryoku Layouts"
+        self.title = "Keyboard Layers App companion"
         self.img = AsyncImage(
             source=imageFolder + self.conf.layers[0], allow_stretch=True
         )
         return self.img
 
-    def on_function_key(self, layer):
+    def updateLayer(self, dt):  # dt is the time since the last call, can be ignored
+        layer = self.keyboard.notify_changes()
+        if layer is None:
+            return
         print(f"Switched to layer {layer}: {self.conf.layers[layer]}")
         self.img.source = imageFolder + self.conf.layers[layer]
 
     def on_stop(self, **kwargs):
-        print("App closing..")
-        if self.thread_event is not None:
-            self.thread_event.set()
+        print("App closing..(did you press ESC?)")
         super().on_stop(**kwargs)
