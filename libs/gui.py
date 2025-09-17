@@ -36,3 +36,6 @@ class Gui(App):
     def on_stop(self, **kwargs):
         print("App closing..(did you press ESC?)")
         super().on_stop(**kwargs)
+
+    async def start(self):
+        super().run()
