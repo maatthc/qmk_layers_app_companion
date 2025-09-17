@@ -8,16 +8,12 @@ from libs.consumer import ConsumerInterface
 
 
 async def main():
+    consumer: ConsumerInterface = None
     args = parser()
 
     if args.client:
-        gui = Gui()
-        Client(gui, args)
-        gui.run()
-        return
-
-    consumer: ConsumerInterface = None
-    if args.server:
+        consumer = Gui(Client(args))
+    elif args.server:
         consumer = Server(Keyboard(), args)
     else:
         consumer = Gui(Keyboard())
