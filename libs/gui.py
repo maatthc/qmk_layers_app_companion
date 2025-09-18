@@ -1,11 +1,11 @@
 import os
+import asyncio
 from libs.config import Config
 
 os.environ["KIVY_NO_ARGS"] = "1"
 
 from kivy.app import App  # noqa: F401
 from kivy.uix.image import Image  # noqa: F401
-from kivy.clock import Clock  # noqa: F401
 
 imageFolder = "./assets/"
 
@@ -17,23 +17,24 @@ class Gui(App):
         self.listener = listener
 
     def on_start(self):
-        Clock.schedule_interval(self.updateLayer, 0.5)
+        asyncio.create_task(self.updateLayer())
 
     def build(self):
         self.title = "Keyboard Layers App companion"
         self.img = Image(source=imageFolder + self.conf.layers[0], allow_stretch=True)
         return self.img
 
-    def updateLayer(self, dt):  # dt is the time since the last call, can be ignored
-        layer = self.listener.notify_changes()
-        if layer is None:
-            return
-        print(f"Switched to layer {layer}: {self.conf.layers[layer]}")
-        self.img.source = imageFolder + self.conf.layers[layer]
+    async def updateLayer(self, dt=None):
+        while True:
+            layer = self.listener.notify_changes()
+            if layer is not None:
+                self.img.source = imageFolder + self.conf.layers[layer]
+                print(f"Switched to layer {layer}: {self.conf.layers[layer]}")
+            await asyncio.sleep(0.1)
 
     def on_stop(self, **kwargs):
         print("App closing..(did you press ESC?)")
         super().on_stop(**kwargs)
 
     async def start(self):
-        super().run()
+        await super().async_run()
