@@ -22,6 +22,7 @@ class Client:
         self.retries = 0
         self.connected = False
         self.socket = socket.socket()
+        self.socket.settimeout(1)
 
     @retry(wait=wait_exponential(multiplier=1, min=1, max=10))
     def connect(self):
@@ -36,13 +37,16 @@ class Client:
             try:
                 data = self.socket.recv(1).decode()
                 if not data:
-                    return
+                    self.conn_reset()
                 return int(data)
+            except socket.timeout:
+                return
             except Exception as e:
                 print(f"{e} - Error with connection: Reconnecting..")
                 self.conn_reset()
 
     def conn_reset(self):
+        self.connected = False
         self.socket.close()
         self.setup()
         self.connect()
