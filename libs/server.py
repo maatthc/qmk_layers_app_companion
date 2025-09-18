@@ -40,9 +40,8 @@ class Server(ConsumerInterface):
         self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter
     ):
         client_addr = writer.get_extra_info("peername")
-        print(f"New client connected: {client_addr}")
-
         self.clients.add(writer)
+        print(f"New client #{len(self.clients)} connected: {client_addr}")
 
     async def periodic_update(self):
         while True:
@@ -72,5 +71,6 @@ class Server(ConsumerInterface):
                 print(f"Error broadcasting to client: {e}")
                 disconnected_clients.add(client)
 
-        self.clients -= disconnected_clients
-        print(f"Broadcasted update to {len(self.clients)} clients")
+        if len(disconnected_clients) > 0:
+            self.clients -= disconnected_clients
+            print(f"Broadcasted update to {len(self.clients)} clients")
