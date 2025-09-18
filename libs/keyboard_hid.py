@@ -47,23 +47,6 @@ class Keyboard:
         except Exception as e:
             print(f"An error occurred while reading from HID: {e}")
 
-    async def notify_changes_async(self, callback):
-        print("Listening for layer changes...")
-        while True:
-            try:
-                data = self.hid.read(BYTES_TO_READ)
-                if len(data) == 0:
-                    continue
-                response = int.from_bytes(data)
-                print(f"Layer change detected: {response}")
-                callback(response)
-            except KeyboardInterrupt:
-                print("KeyboardInterrupt received. Exiting...")
-                break
-            except Exception as e:
-                print(f"An error occurred while reading from HID: {e}")
-                break
-
     def print_instructions(self):
         print("No keyboard found.")
         print(
