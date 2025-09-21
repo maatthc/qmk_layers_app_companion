@@ -4,13 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-kivy = "*"
 tenacity = "*"
 argparse = "*"
 hid = "*"
 zeroconf = "*"
 asyncio = "*"
 aiohttp = "*"
+kivy = {extras = ["base"], version = "*"}
 
 [dev-packages]
 
