@@ -105,6 +105,7 @@ class KeyboardLayoutClient {
   onError(event) {
     console.error("WebSocket error:", event);
     this.isConnecting = false;
+    this.elements.layoutImage.src = "assets/virtual_keyboard.png";
     this.updateConnectionStatus("disconnected", "Connection Error");
   }
 
