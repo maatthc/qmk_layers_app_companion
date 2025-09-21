@@ -1,0 +1,45 @@
+name: Package Application with Pyinstaller
+run-name: ${{ github.actor }} Windows build 🚀
+
+on:
+  push:
+    branches: [ build ]
+  pull_request:
+    branches: [ build ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.13'
+      cache: 'pip'
+
+    - name: Install PipEnv
+      run: pip install pipenv
+
+    - name: Generatere requirements
+      run: pipenv requirements > requirements.txt
+
+    - name: Download HidApi
+      run: |
+        curl -LJO https://github.com/libusb/hidapi/releases/download/hidapi-0.15.0/hidapi-win.zip
+        unzip hidapi-win.zip -d hidapi
+        mv hidapi/x64/hidapi.dll .
+
+    - name: Package Application
+      uses: JackMcKew/pyinstaller-action-windows@main
+      with:
+        path: .
+
+    - name: Test
+      run: |
+          ls -la dist
+          tree
+          ls -la dist/windows/
