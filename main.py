@@ -17,20 +17,19 @@ async def main():
         cli = Client(args)
         await cli.start()
         consumer = Gui(cli)
-    elif args.server:
-        keyboard = Keyboard()
-        consumer = Server(keyboard, args)
-    elif args.web:
-        keyboard = Keyboard()
-        consumer = WebServer(keyboard, args)
     else:
         keyboard = Keyboard()
-        consumer = Gui(keyboard)
+        if args.server:
+            consumer = Server(keyboard, args)
+        elif args.web:
+            consumer = WebServer(keyboard, args)
+        else:
+            consumer = Gui(keyboard)
 
     try:
         await consumer.start()
     except KeyboardInterrupt:
-        if hasattr(consumer, 'cleanup'):
+        if hasattr(consumer, "cleanup"):
             await consumer.cleanup()
         else:
             consumer.stop()
