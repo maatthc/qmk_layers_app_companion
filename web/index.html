@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keyboard Layers Companion</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <main class="main-content">
+        <div class="layout-container" id="layoutContainer">
+          <div class="connection-status" id="connectionStatus">
+            <span class="status-indicator" id="statusIndicator"></span>
+            <span class="status-text" id="statusText">Connecting...</span>
+          </div>
+          <button
+            class="fullscreen-button"
+            id="fullscreenButton"
+            title="Toggle fullscreen"
+          >
+            <svg
+              class="fullscreen-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+              />
+            </svg>
+          </button>
+          <div class="layout-display">
+            <img
+              id="layoutImage"
+              class="layout-image"
+              src=""
+              alt="Current keyboard layout"
+            />
+          </div>
+
+          <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+            <p>Loading keyboard layout...</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
