@@ -27,6 +27,12 @@ def parser():
         action="store_true",
         help="Receives keystrokes from remote server to display Keyboard layout",
     )
+    parser.add_argument(
+        "-w",
+        "--web",
+        action="store_true",
+        help="Start web server to display keyboard layout in browser",
+    )
     args = parser.parse_args()
 
     if args.server_ip and not args.client:
@@ -34,5 +40,8 @@ def parser():
 
     if args.client and args.server:
         parser.error("Use --client or --server, not both")
+    
+    if args.web and (args.client or args.server):
+        parser.error("--web cannot be used with --client or --server")
 
     return args
