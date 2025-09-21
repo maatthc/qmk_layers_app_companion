@@ -1,0 +1,21 @@
+{
+  "name": "Keyboard Layers App companion",
+  "short_name": "Keyboard companion",
+  "description": "App companion for visualizing the selected layer of QMK powered keyboards",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f4f4f4",
+  "theme_color": "#333333",
+  "icons": [
+    {
+      "src": "assets/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

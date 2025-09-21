@@ -118,17 +118,21 @@ class WebServer(ConsumerInterface):
             logging.error(f"Error serving static file {file_path}: {e}")
             return await self.serve_500()
 
-    async def serve_index(self, req):
+    async def serve_index(self, _):
         return await self.serve_static_file("web/index.html", "text/html")
 
-    async def serve_css(self, req):
+    async def serve_json(self, _):
+        return await self.serve_static_file("web/manifest.json", "text/json")
+
+    async def serve_css(self, _):
         return await self.serve_static_file("web/styles.css", "text/css")
 
-    async def serve_js(self, req):
-        return await self.serve_static_file("web/app.js", "application/javascript")
+    async def serve_js(self, request):
+        file = request.match_info.get("file")
+        return await self.serve_static_file(f"web/{file}.js", "application/javascript")
 
     async def serve_assets(self, request):
-        filename = request.match_info.get("filename", "")
+        filename = request.match_info.get("filename")
         asset_path = f"{imageFolder}/{filename}"
 
         return await self.serve_static_file(asset_path)
@@ -183,8 +187,10 @@ class WebServer(ConsumerInterface):
 
     def setup_routes(self):
         self.app.router.add_get("/", self.serve_index)
+        self.app.router.add_get("/index.html", self.serve_index)
         self.app.router.add_get("/styles.css", self.serve_css)
-        self.app.router.add_get("/app.js", self.serve_js)
+        self.app.router.add_get("/manifest.json", self.serve_json)
+        self.app.router.add_get("/{file}.js", self.serve_js)
         self.app.router.add_get("/assets/{filename}", self.serve_assets)
         self.app.router.add_get("/ws", self.websocket_handler)
         self.app.router.add_route("*", "/{path:.*}", self.serve_404)

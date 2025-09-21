@@ -5,8 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Keyboard Layers Companion</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#333333" />
+    <link rel="apple-touch-icon" href="assets/icon-192x192.png" />
+    <meta name="apple-mobile-web-app-status-bar" content="#aa7700" />
+    <link rel="icon" type="image/x-icon" href="assets/icon-192x192.png" />
   </head>
   <body>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/serviceworker.js")
+            .then((registration) => {
+              console.log("Service Worker registered:", registration);
+            })
+            .catch((error) => {
+              console.error("Service Worker registration failed:", error);
+            });
+        });
+      }
+    </script>
     <div class="container">
       <main class="main-content">
         <div class="layout-container" id="layoutContainer">
@@ -35,7 +54,7 @@
             <img
               id="layoutImage"
               class="layout-image"
-              src=""
+              src="assets/virtual_keyboard.png"
               alt="Current keyboard layout"
             />
           </div>
