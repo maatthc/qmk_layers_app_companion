@@ -2,7 +2,7 @@
 
 Display the selected keyboard layer layout on screen to assist your to memorize the key's locations.
 
-It supports displaying the layout in a remote screen, so you can use a tablet or similar to save space on your main screen.
+It supports displaying the layout in a remote screen, so you can use a tablet or similar to save space on your main screen. You can use a web browser or a desktop application for that.
 
 It requires some changes to your keyboard firmware to notify the host of the layer changes (see below).
 
@@ -14,9 +14,11 @@ Demonstration video:
 
 ## Display on a remote host
 
-Start the program with the `--remote` option on the host and with `--client` on your tablet - the host will discover the client automatically.
+The application can display the layout on a remote host, either using a web browser or a desktop application.
 
-Optionally, the client IP can be specified.
+The Desktop application might be more responsive, but requires Python installation on the remote host. It does not require any configuration, as the client tries to discover the server automatically in the local network.
+
+The web application only requires a web browser, but it needs the server IP address to be specified in the URL. It should work on any modern browser and screen size.
 
 ![Remote](./assets/remote-client.png)
 
@@ -91,7 +93,9 @@ layer_9 = miryoku-kle-fun.png
 
 ## Define your own layouts
 
-Build your own layouts using [KLE](http://www.keyboard-layout-editor.com) - you can find json examples on the [Miryoku QMK repo](https://github.com/manna-harbour/miryoku/tree/master/data/layers/) or use [mine](https://github.com/maatthc/miryoku_qmk/tree/miryoku/data/layers).
+Build your own layouts using [KLE](http://www.keyboard-layout-editor.com) or [KLE NG](https://editor.keyboard-tools.xyz/) - you can find json examples on the [Miryoku QMK repo](https://github.com/manna-harbour/miryoku/tree/master/data/layers/) or use [mine](https://github.com/maatthc/miryoku_qmk/tree/miryoku/data/layers).
+
+KLE NG is recommended, as it has more features and is actively maintained. It also allows you to export the layout in a higher resolution: change the Zoom to 200% and export the PNG.
 
 At KLE, use the "Upload JSON" button in the "Raw data" tab to upload the examples.
 
@@ -100,7 +104,8 @@ Once you are done editing, download the PNG files, copy it to the `assets` folde
 
 ## How to run
 
-This application should work on all OSs compatible with HIDAPI.\
+This application should work on all OSs compatible with HIDAPI.
+
 At the moment, only instructions for Fedora Linux are available.
 
 ### Linux
@@ -121,15 +126,31 @@ Then install the required Python packages:
 
 `pipenv run python main.py`
 
-##### Remote Display
+##### Remote Display - Web application
 
-The `--client-ip` is optional.
+Run the server on the computer connected to the keyboard and open a browser on the remote device (tablet, mobile, desktop) to display the layout.
+
+The default server port for both HTTP and WebSocket is 1977, but it can be changed using the `--server_port` option.
+
+The IP address that the server binds to can be changed using the `--server_ip` option.
 
 Host:
 
-`pipenv run python main.py --remote <--client-ip>`
+`pipenv run python main.py --web [--server_ip] [--server_port]`
+
+##### Remote Display - Desktop Application
+
+Run the server on the computer connected to the keyboard and the client on the remote host. 
+
+If no server IP or port is specified, the client will try to discover the server automatically. The default server port is 1977.
+
+The IP address that the server binds to can be changed using the `--server_ip` option.
+ 
+Host:
+
+`pipenv run python main.py --server [--server_ip] [--server_port]`
 
 Client:
 
-`pipenv run python main.py --client <--client-ip> `
+`pipenv run python main.py --client [--server_ip] [--server_port]`
 
