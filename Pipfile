@@ -10,6 +10,7 @@ argparse = "*"
 hid = "*"
 zeroconf = "*"
 asyncio = "*"
+aiohttp = "*"
 
 [dev-packages]
 
