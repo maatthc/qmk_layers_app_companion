@@ -1,6 +1,6 @@
 # Keyboard Layers App companion
 
-Display the selected keyboard layer layout on screen to assist your to memorize the key's locations.
+Display the selected keyboard layer layout on screen to assist you to memorize the key's locations.
 
 It supports displaying the layout in a remote screen, so you can use a tablet or similar to save space on your main screen. You can use a web browser or a desktop application for that.
 
@@ -95,9 +95,9 @@ layer_9 = miryoku-kle-fun.png
 
 Build your own layouts using [KLE](http://www.keyboard-layout-editor.com) or [KLE NG](https://editor.keyboard-tools.xyz/) - you can find json examples on the [Miryoku QMK repo](https://github.com/manna-harbour/miryoku/tree/master/data/layers/) or use [mine](https://github.com/maatthc/miryoku_qmk/tree/miryoku/data/layers).
 
-KLE NG is recommended, as it has more features and is actively maintained. It also allows you to export the layout in a higher resolution: change the Zoom to 200% and export the PNG.
+**KLE NG** is recommended, as it has more features and is actively maintained. It also allows you to export the layout in a higher resolution: change the Zoom to 200% and export the PNG.
 
-At KLE, use the "Upload JSON" button in the "Raw data" tab to upload the examples.
+At **KLE**, use the "Upload JSON" button in the "Raw data" tab to upload the examples.
 
 Once you are done editing, download the PNG files, copy it to the `assets` folder, rename it properly and update the config file.
 
@@ -122,11 +122,11 @@ Then install the required Python packages:
 
 `pipenv install`
 
-#### Run the main script
+#### Run the Desktop application locally
 
 `pipenv run python main.py`
 
-##### Remote Display - Web application
+#### Remote Display - Web application
 
 Run the server on the computer connected to the keyboard and open a browser on the remote device (tablet, mobile, desktop) to display the layout.
 
@@ -138,7 +138,7 @@ Host:
 
 `pipenv run python main.py --web [--server_ip] [--server_port]`
 
-##### Remote Display - Desktop Application
+#### Remote Display - Desktop Application
 
 Run the server on the computer connected to the keyboard and the client on the remote host. 
 
