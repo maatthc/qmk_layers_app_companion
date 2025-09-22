@@ -92,9 +92,7 @@ Layers reference for Miryoku: [miryoku_layer_list.h](https://github.com/manna-ha
 
 The Configuration is done via the `config.ini` file.
 
--   Keyboard's USB details: refer to the [QMK HDI documentation](https://docs.qmk.fm/features/rawhid) for details on how to find the correct values for your keyboard. 
-
->> "you will need to know the USB Vendor and Product IDs of the device. These can easily be found by looking at your keyboard's info.json, under the usb object (alternatively, you can also use Device Manager on Windows, System Information on macOS, or lsusb on Linux)."
+-   Keyboard's USB details: if you used the example code above, there is no need to change the usage page and usage values.
 
 -   Layer image files: the example files are for Miryoku QMK, but you can define your own (see below). Layers that are not used can be left empty.
 
@@ -103,8 +101,6 @@ Example `config.ini`:
 ``` ini
 
 [KEYBOARD_USB_HID]
-vendor_id = 0xBEEB
-product_id = 0x0001
 usage_page = 0xFF60
 usage = 0x61
 
