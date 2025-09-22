@@ -3,7 +3,7 @@ from kivy_deps import sdl2
 
 a = Analysis(
     ['main.py'],
-    hiddenimports=['pkg_resources.extern'],
+    hiddenimports=["zeroconf._utils.ipaddress","zeroconf._handlers.answers",'pkg_resources.extern'],
     pathex=[],
     binaries=[('hidapi.dll','.')],
     datas=[],
