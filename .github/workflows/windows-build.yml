@@ -3,9 +3,7 @@ run-name: ${{ github.actor }} Windows build 🚀
 
 on:
   push:
-    branches: [ build ]
-  pull_request:
-    branches: [ build ]
+    branches: [ master ]
 
 jobs:
   build:
