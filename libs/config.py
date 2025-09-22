@@ -20,8 +20,6 @@ class Config:
 
         if "KEYBOARD_USB_HID" in Config._config:
             keyboard = Config._config["KEYBOARD_USB_HID"]
-            Config.vendor_id = int(keyboard["vendor_id"], 16)
-            Config.product_id = int(keyboard["product_id"], 16)
             Config.usage_page = int(keyboard["usage_page"], 16)
             Config.usage = int(keyboard["usage"], 16)
         else:
