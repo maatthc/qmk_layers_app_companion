@@ -1,4 +1,5 @@
 import configparser
+import sys
 
 
 class Config:
@@ -15,7 +16,7 @@ class Config:
             Config._config.read(Config._config_file)
         except configparser.Error as e:
             print(f"Error reading configuration file: {e}")
-            exit(2)
+            sys.exit(2)
 
         if "KEYBOARD_USB_HID" in Config._config:
             keyboard = Config._config["KEYBOARD_USB_HID"]
@@ -27,7 +28,7 @@ class Config:
             print(
                 f"KEYBOARD_USB_HID section not found in config file: {Config._config_file}"
             )
-            exit(2)
+            sys.exit(2)
 
         if "LAYER_IMAGES" in Config._config:
             values = Config._config["LAYER_IMAGES"].values()

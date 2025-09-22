@@ -37,12 +37,6 @@ jobs:
       with:
         path: .
 
-    - name: Test
-      run: |
-          ls -la dist
-          tree
-          ls -la dist/windows/
-
     - name: Package Artifacts
       run: |
           cp dist/windows/* .

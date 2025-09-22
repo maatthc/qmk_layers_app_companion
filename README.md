@@ -106,15 +106,26 @@ Once you are done editing, download the PNG files, copy it to the `assets` folde
 
 This application should work on all OSs compatible with HIDAPI.
 
-At the moment, only instructions for Fedora Linux are available.
+### Windows
+
+Release packages are available with all dependencies included, so you don't need to install anything else.
+Download the latest release from the [Releases](https://github.com/maatthc/qmk_layers_app_companion/releases/) page, unzip it and run `Keyboard Companion.exe`.
 
 ### Linux
-
-#### Install Dependencies
-
 Fist install [HIDAPI](https://pypi.org/project/hid/) on your system. E.g. on Fedora:
 
 `dnf install hidapi`
+
+
+### macOS
+
+Fist install [HIDAPI](https://pypi.org/project/hid/) on your system. E.g. :
+
+`brew install hidapi`
+
+#### Install Dependencies (macOS/Linux)
+
+Make sure you have Python 3.7 or higher installed, 3.13 is recommended. Pip is also required.
 
 Then install the required Python packages:
 

@@ -15,7 +15,7 @@ class Keyboard:
         self.hid = self.get_raw_hid_interface()
         if self.hid is None:
             self.print_instructions()
-            exit(1)
+            sys.exit(1)
 
     def get_raw_hid_interface(self):
         device_interfaces = hid.enumerate(self.config.vendor_id, self.config.product_id)
