@@ -18,7 +18,7 @@ class Keyboard:
             sys.exit(1)
 
     def get_raw_hid_interface(self):
-        device_interfaces = hid.enumerate(self.config.vendor_id, self.config.product_id)
+        device_interfaces = hid.enumerate()
         raw_hid_interfaces = [
             i
             for i in device_interfaces
