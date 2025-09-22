@@ -1,3 +1,4 @@
+import sys
 import hid
 
 from libs.config import Config
@@ -39,7 +40,7 @@ class Keyboard:
             data = self.hid.read(BYTES_TO_READ)
             if len(data) == 0:
                 return
-            response = int.from_bytes(data)
+            response = int.from_bytes(data, sys.byteorder)
             print(f"Layer change detected: {response}")
             return response
         except KeyboardInterrupt:
