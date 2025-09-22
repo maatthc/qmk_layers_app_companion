@@ -49,7 +49,7 @@ jobs:
           zip -r application-windows.zip assets web config.ini README.md *.exe
 
     - name: Release
-        uses: softprops/action-gh-release@v2
-        # if: github.ref_type == 'tag'
-        with:
-          files: application-windows.zip
+      uses: softprops/action-gh-release@v2
+      # if: github.ref_type == 'tag'
+      with:
+        files: application-windows.zip
