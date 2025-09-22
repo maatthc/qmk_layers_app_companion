@@ -42,3 +42,14 @@ jobs:
           ls -la dist
           tree
           ls -la dist/windows/
+
+    - name: Package Artifacts
+      run: |
+          cp dist/windows/* .
+          zip -r application-windows.zip assets web config.ini README.md *.exe
+
+    - name: Release
+        uses: softprops/action-gh-release@v2
+        # if: github.ref_type == 'tag'
+        with:
+          files: application-windows.zip
