@@ -13,6 +13,20 @@ Demonstration video:
 [![Demonstration](https://img.youtube.com/vi/WpxBLXetmFg/0.jpg)](https://www.youtube.com/watch?v=WpxBLXetmFg)
 
 <!-- BEGIN mktoc {"min_depth":2, "max_depth":5} -->
+
+- [Display on a remote host](#display-on-a-remote-host)
+- [QMK Firmware changes](#qmk-firmware-changes)
+- [Configuration](#configuration)
+- [Define your own layouts images](#define-your-own-layouts-images)
+- [Installation](#installation)
+  - [Windows](#windows)
+  - [Linux](#linux)
+  - [macOS](#macos)
+  - [Install Dependencies (macOS/Linux)](#install-dependencies-macoslinux)
+- [How to run](#how-to-run)
+  - [Run the Desktop application locally](#run-the-desktop-application-locally)
+  - [Remote Display - Web application](#remote-display---web-application)
+  - [Remote Display - Desktop Application](#remote-display---desktop-application)
 <!-- END mktoc -->
 
 ## Display on a remote host
