@@ -12,6 +12,9 @@ Demonstration video:
 
 [![Demonstration](https://img.youtube.com/vi/WpxBLXetmFg/0.jpg)](https://www.youtube.com/watch?v=WpxBLXetmFg)
 
+<!-- BEGIN mktoc {"min_depth":2, "max_depth":5} -->
+<!-- END mktoc -->
+
 ## Display on a remote host
 
 The application can display the layout on a remote host, either using a web browser or a desktop application.
@@ -35,8 +38,8 @@ It requires the following to be added to your QMK firmware [(reference)](https:/
 
 RAW_ENABLE = yes
 
-# Optional, enables debug messages to the console 
-# https://docs.qmk.fm/faq_debug
+// Optional, enables debug messages to the console 
+// https://docs.qmk.fm/faq_debug
 CONSOLE_ENABLE = yes
 KEYCODE_STRING_ENABLE = yes
 
@@ -92,21 +95,23 @@ usage_page = 0xFF60
 usage = 0x61
 
 [LAYER_IMAGES]
-layer_0 = miryoku-kle-base.png 
+layer_0 = base.png 
 layer_1 = 
 layer_2 =
 layer_3 =
-layer_4 = miryoku-kle-nav.png 
-layer_5 = miryoku-kle-mouse.png 
-layer_6 = miryoku-kle-media.png 
-layer_7 = miryoku-kle-num.png 
-layer_8 = miryoku-kle-sym.png 
-layer_9 = miryoku-kle-fun.png 
+layer_4 = nav.png 
+layer_5 = mouse.png 
+layer_6 = media.png 
+layer_7 = num.png 
+layer_8 = sym.png 
+layer_9 = fun.png 
 ```
 
-## Define your own layouts
+## Define your own layouts images
 
-Build your own layouts using [KLE](http://www.keyboard-layout-editor.com) or [KLE NG](https://editor.keyboard-tools.xyz/) - you can find json examples on the [Miryoku QMK repo](https://github.com/manna-harbour/miryoku/tree/master/data/layers/) or use [mine](https://github.com/maatthc/miryoku_qmk/tree/miryoku/data/layers).
+You can use any tool you like to create the layout images and multiple formats are supported (png, jpg, bmp).
+
+You can also build your layouts using [KLE](http://www.keyboard-layout-editor.com) or [KLE NG](https://editor.keyboard-tools.xyz/) - you can find JSON examples on the [Miryoku QMK repo](https://github.com/manna-harbour/miryoku/tree/master/data/layers/) or use [mine](https://github.com/maatthc/miryoku_qmk/tree/miryoku/data/layers).
 
 **KLE NG** is recommended, as it has more features and is actively maintained. It also allows you to export the layout in a higher resolution: change the Zoom to 200% and export the PNG.
 
@@ -115,7 +120,7 @@ At **KLE**, use the "Upload JSON" button in the "Raw data" tab to upload the exa
 Once you are done editing, download the PNG files, copy it to the `assets` folder, rename it properly and update the config file.
 
 
-## How to run
+## Installation
 
 This application should work on all OSs compatible with HIDAPI.
 
@@ -136,21 +141,44 @@ Fist install [HIDAPI](https://pypi.org/project/hid/) on your system. E.g. :
 
 `brew install hidapi`
 
-#### Install Dependencies (macOS/Linux)
+### Install Dependencies (macOS/Linux)
 
 Make sure you have Python 3.7 or higher installed, 3.13 is recommended. Pip is also required.
 
-Then install the required Python packages:
+Clone this repo and via terminal, `cd` to it. Then install the required Python packages:
 
 `pip install pipenv`
 
 `pipenv install`
 
-#### Run the Desktop application locally
+
+## How to run
+
+There are three ways to run the application: locally on the computer connected to the keyboard, remotely using a web browser or remotely using the desktop application. Choose the one that best fits your needs.
+
+Review and edit the `config.ini` file to match your keyboard's USB details and the layout image files before running the application.
+
+### Run the Desktop application locally
+
+Scenario: you have enough space on your main screen or external monitor to display the layout.
+
+Advantage: layout is displayed with minimum latency.
+ 
+- Windows: just run `Keyboard Companion.exe` from the release package.
+- macOS/Linux: run the following command from the repo folder:
 
 `pipenv run python main.py`
 
-#### Remote Display - Web application
+### Remote Display - Web application
+
+Scenario: you have a second device that is only capable of running a web browser (Android, iOS, Kindle, etc) and want to save space on your main screen.
+
+Disadvantage: layout changes might be slightly delayed due to network latency or device limitations.
+ 
+- Windows: run `Keyboard Companion.exe --web` from the command line.
+- macOS/Linux: run the following command from the repo folder:
+
+`pipenv run python main.py --web [--server_ip] [--server_port]`
 
 Run the server on the computer connected to the keyboard and open a browser on the remote device (tablet, mobile, desktop) to display the layout.
 
@@ -158,18 +186,23 @@ The default server port for both HTTP and WebSocket is 1977, but it can be chang
 
 The IP address that the server binds to can be changed using the `--server_ip` option.
 
-Host:
 
-`pipenv run python main.py --web [--server_ip] [--server_port]`
+### Remote Display - Desktop Application
 
-#### Remote Display - Desktop Application
+Scenario: you have a second computer that can run the desktop application and want to save space on your main screen.
 
+Advantage: layout changes are more responsive than using a web browser.
+
+Disadvantage: requires Python installation on the remote host.
+ 
 Run the server on the computer connected to the keyboard and the client on the remote host. 
 
 If no server IP or port is specified, the client will try to discover the server automatically. The default server port is 1977.
 
 The IP address that the server binds to can be changed using the `--server_ip` option.
  
+On Windows, change `pipenv run python` to `Keyboard Companion.exe` in the commands below.
+
 Host:
 
 `pipenv run python main.py --server [--server_ip] [--server_port]`
