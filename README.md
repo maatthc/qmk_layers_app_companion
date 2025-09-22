@@ -29,6 +29,19 @@ The application works by receiving data sent to the computer by the keyboard whe
 
 It requires the following to be added to your QMK firmware [(reference)](https://github.com/maatthc/qmk_userspace/tree/main/keyboards/beekeeb/piantor/keymaps/manna_harbour_miryoku):
 
+**File**: keyboards/<your_keyboard>/rules.mk
+
+``` c
+
+RAW_ENABLE = yes
+
+# Optional, enables debug messages to the console 
+# https://docs.qmk.fm/faq_debug
+CONSOLE_ENABLE = yes
+KEYCODE_STRING_ENABLE = yes
+
+```
+
 **File**: keyboards/<your_keyboard>/keymaps/<default|yours>/keymap.c
 
 ``` c
