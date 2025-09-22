@@ -7,7 +7,6 @@ a = Analysis(
     pathex=[],
     binaries=[('hidapi.dll','.')],
     datas=[],
-    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
