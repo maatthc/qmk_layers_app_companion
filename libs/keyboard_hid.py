@@ -1,7 +1,7 @@
 import sys
 import hid
-
 from libs.config import Config
+from tenacity import retry, wait_exponential
 
 BYTES_TO_READ = 1
 
@@ -35,6 +35,7 @@ class Keyboard:
         print(f"Keyboard Product: {interface.product}")
         return interface
 
+    @retry(wait=wait_exponential(multiplier=1, min=1, max=10))
     def notify_changes(self):
         try:
             data = self.hid.read(BYTES_TO_READ)
@@ -45,6 +46,10 @@ class Keyboard:
             return response
         except KeyboardInterrupt:
             print("KeyboardInterrupt received. Exiting...")
+        except hid.HIDException:
+            print("Device disconnected or not accessible, retrying..")
+            self.hid = self.get_raw_hid_interface() or self.hid
+            raise
         except Exception as e:
             print(f"An error occurred while reading from HID: {e}")
 
