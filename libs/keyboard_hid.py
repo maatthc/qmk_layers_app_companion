@@ -3,7 +3,7 @@ import hid
 from libs.config import Config
 from tenacity import retry, wait_exponential
 
-BYTES_TO_READ = 1
+BYTES_TO_READ = 32
 
 
 class Keyboard:
@@ -39,11 +39,15 @@ class Keyboard:
     @retry(wait=wait_exponential(multiplier=1, min=1, max=10))
     def notify_changes(self):
         try:
-            data = self.hid.read(BYTES_TO_READ)
-            if len(data) == 0:
-                return
-            response = int.from_bytes(data, sys.byteorder)
-            print(f"Layer change detected: {response}")
+            while True:
+                data = self.hid.read(BYTES_TO_READ)
+                if len(data) == 0:
+                    return
+                if data[0] == 0x90:
+                    print("readed.. lol")
+                    break
+            response = data[1]
+            print(f"Layer change detected: '{response}'")
             return response
         except KeyboardInterrupt:
             print("KeyboardInterrupt received. Exiting...")
