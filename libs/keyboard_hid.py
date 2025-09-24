@@ -31,8 +31,9 @@ class Keyboard:
 
         interface = hid.Device(path=raw_hid_interfaces[0]["path"])
         interface.nonblocking = True
-        print(f"Keyboard Manufacturer: {interface.manufacturer}")
-        print(f"Keyboard Product: {interface.product}")
+        print("Found Keyboard:")
+        print(f"    Manufacturer: {interface.manufacturer}")
+        print(f"    Product: {interface.product}")
         return interface
 
     @retry(wait=wait_exponential(multiplier=1, min=1, max=10))
