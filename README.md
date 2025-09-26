@@ -15,7 +15,7 @@ Demonstration video:
 <!-- BEGIN mktoc {"min_depth":2, "max_depth":5} -->
 
 - [Display on a remote host](#display-on-a-remote-host)
-- [QMK Firmware changes](#qmk-firmware-changes)
+- [QMK/Vial Firmware changes](#qmkvial-firmware-changes)
 - [Configuration](#configuration)
 - [Define your own layouts images](#define-your-own-layouts-images)
 - [Installation](#installation)
@@ -40,30 +40,24 @@ The web application only requires a web browser, but it needs the server IP addr
 ![Remote](./assets/remote-client.png)
 
 
-## QMK Firmware changes
+## QMK/Vial Firmware changes
 
 The application works by receiving data sent to the computer by the keyboard when it switchs between layers, using raw HID.
 
-It requires the following to be added to your QMK firmware [(reference)](https://github.com/maatthc/qmk_userspace/tree/main/keyboards/beekeeb/piantor/keymaps/manna_harbour_miryoku):
+It requires the following to be added to your QMK/Vial firmware [(reference)](https://github.com/maatthc/qmk_userspace/tree/main/keyboards/beekeeb/piantor/keymaps/manna_harbour_miryoku):
 
 **File**: keyboards/<your_keyboard>/rules.mk
 
 ``` c
 
+// Not required for Vial
 RAW_ENABLE = yes
-
-// Optional, enables debug messages to the console 
-// https://docs.qmk.fm/faq_debug
-CONSOLE_ENABLE = yes
-KEYCODE_STRING_ENABLE = yes
 
 ```
 
 **File**: keyboards/<your_keyboard>/keymaps/<default|yours>/keymap.c
 
 ``` c
-#include QMK_KEYBOARD_H
-#include "print.h"
 #include "raw_hid.h"
 
 ...
@@ -71,19 +65,25 @@ KEYCODE_STRING_ENABLE = yes
 // Notifies the host of the layer change
 layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t hi_layer = get_highest_layer(state);
-#ifdef CONSOLE_ENABLE
-    uprintf("LAYER: Selected Layer: %d\n", hi_layer);
-#endif
-    raw_hid_send(&hi_layer,32);
+    uint8_t response[RAW_EPSIZE];
+    memset(response, 0x00, RAW_EPSIZE);
+    response[PAYLOAD_BEGIN] = PAYLOAD_MARK;
+    response[PAYLOAD_BEGIN + 1] = hi_layer;
+    raw_hid_send(response, RAW_EPSIZE);
     return state;
 }
 ```
+**Note** The function `layer_state_set_user` might already be 'present' but only conditionally declared (by #ifdef blocks) so review your existing code properly.
 
-Layers reference for Miryoku: [miryoku_layer_list.h](https://github.com/manna-harbour/miryoku_qmk/blob/miryoku/users/manna-harbour_miryoku/miryoku_babel/miryoku_layer_list.h)
 
 **File**: keyboards/<your_keyboard>/keymaps/<default|yours>/config.h
 
 ``` c
+#define RAW_EPSIZE 32
+#define PAYLOAD_MARK 0x90
+#define PAYLOAD_BEGIN 24
+
+// Not required for Vial
 #define RAW_USAGE_PAGE 0xFF60
 #define RAW_USAGE 0x61
 ```
