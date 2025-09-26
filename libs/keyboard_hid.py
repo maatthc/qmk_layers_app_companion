@@ -4,6 +4,8 @@ from libs.config import Config
 from tenacity import retry, wait_exponential
 
 BYTES_TO_READ = 32
+PAYLOAD_MARK = 0x90
+PAYLOAD_BEGIN = 24
 
 
 class Keyboard:
@@ -43,10 +45,10 @@ class Keyboard:
                 data = self.hid.read(BYTES_TO_READ)
                 if len(data) == 0:
                     return
-                if data[0] == 0x90:
-                    print("readed.. lol")
+                break
+                if data[PAYLOAD_BEGIN] == PAYLOAD_MARK:
                     break
-            response = data[1]
+            response = data[PAYLOAD_BEGIN + 1]
             print(f"Layer change detected: '{response}'")
             return response
         except KeyboardInterrupt:
