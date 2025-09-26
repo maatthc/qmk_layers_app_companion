@@ -45,7 +45,6 @@ class Keyboard:
                 data = self.hid.read(BYTES_TO_READ)
                 if len(data) == 0:
                     return
-                break
                 if data[PAYLOAD_BEGIN] == PAYLOAD_MARK:
                     break
             response = data[PAYLOAD_BEGIN + 1]
