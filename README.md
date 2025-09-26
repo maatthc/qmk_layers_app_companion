@@ -46,6 +46,8 @@ The application works by receiving data sent to the computer by the keyboard whe
 
 It requires the following to be added to your QMK/Vial firmware [(reference)](https://github.com/maatthc/qmk_userspace/tree/main/keyboards/beekeeb/piantor/keymaps/manna_harbour_miryoku):
 
+**Note:** With these changes, the Vial's Matrix Tester (a graphical tool) will stop working.
+
 **File**: keyboards/<your_keyboard>/rules.mk
 
 ``` c
@@ -73,7 +75,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 ```
-**Note** The function `layer_state_set_user` might already be 'present' but only conditionally declared (by #ifdef blocks) so review your existing code properly.
+**Note:** The function `layer_state_set_user` might already be 'present' but only conditionally declared (by #ifdef blocks) so review your existing code properly.
 
 
 **File**: keyboards/<your_keyboard>/keymaps/<default|yours>/config.h
